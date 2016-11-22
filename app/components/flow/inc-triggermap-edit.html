@@ -1,0 +1,111 @@
+<div class="dotted-border margin-top-10 margin-bottom-20 padding-20">
+
+	<div class="flow-execution-trigger-wrapper">
+		
+		The following executions have been attached to the respective events. To add new event=>execution triggers, please select the "Add" button below.
+		
+		<div class="flow-execution-trigger-list">
+			<div ng-repeat="(trig,events) in currentflow.triggerMap" class="data-row margin-top-10 dotted-border padding-10">
+				<div class="row">
+					<div class="col-xs-6">
+						<b>Event:</b>
+						<br />
+						{{trig}}
+					</div>
+					<div class="col-xs-6">
+						<b>Executions:</b>
+						<br />
+						<div ng-repeat="e in events">
+							{{getexecution(currentflow,e).moduleReference.name}}
+							<br />
+							<span ng-repeat="(k,v) in getexecution(currentflow,e).argumentMap">
+								<code>{{getargumentname(getexecution(currentflow,e).moduleReference,k)}} => {{getissensitive(getexecution(currentflow,e).moduleReference,k)?'[Encrypted]':v}}</code><br />
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="data-row no-records margin-top-10 dotted-border padding-10">
+				No executions have been triggered to fire.
+			</div>
+		</div>
+	
+	</div>
+	<div class="row margin-top-10 margin-left-0 margin-right-0">
+		<div class="col-xs-6 margin-top-5 padding-left-0">
+			<div class="bg-blue-200 padding-10">
+			<b>Available Events</b>
+			</div>
+		</div>
+		<div class="col-xs-6 margin-top-5 padding-left-0">
+			<div class="bg-blue-200 padding-10">
+			<b>Available Executions</b>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row margin-top-10 margin-right-0 margin-left-0">
+		<div class="col-xs-6 padding-left-0">
+			<div class="dropdown">
+				<button id="selectTriggerDD_{{currentflow.id}}" type="button" class="btn btn-default full-width margin-top-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Select a Trigger <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu full-width" aria-labelledby="selectTriggerDD_{{currentflow.id}}">
+					<li ng-repeat="(k,v) in triggermap[currentapplication.id][currentflow.name]" class="padding-10">
+						<b>{{k}}</b>
+						<ul ng-repeat="trigger in v">
+							<li>
+								<a href="javascript:void(0)" ng-click="triggerConfig.selectedTrigger={'module':k,'event':trigger}">{{trigger}}</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-xs-6 padding-left-0">
+			<div class="dropdown">
+				<button id="selectExecutionDD_{{currentflow.id}}" type="button" class="btn btn-default full-width margin-top-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Select an Execution <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu full-width" aria-labelledby="selectExecutionDD_{{currentflow.id}}">
+					<li ng-repeat="exec in getexecutionlist(currentflow)">
+						<a href="javascript:void(0)" ng-click="triggerConfig.selectedExecution=exec">
+							{{exec.moduleReference.name}}<br />
+							<span ng-repeat="(k,v) in exec.argumentMap">
+								<code>{{getargumentname(exec.moduleReference,k)}} => {{getissensitive(exec.moduleReference,k)?'[Encrypted]':v}}</code><br />
+							</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="triggerMapPrepWrapper_{{currentflow.id}}" class="margin-top-20 dotted-border padding-20" ng-if="triggerConfig.selectedExecution!==undefined || triggerConfig.selectedTrigger !== undefined">
+		<B>Adding Event Execution to Flow</B>
+		<a href="javascript:void(0)" type="button" class="margin-left-10 push-right close-x" ng-click="resetTriggerConfig()"><span aria-hidden="true">&times;</span></a>
+		<a href="javascript:void(0)" type="button" class="push-right close-x" ng-click="saveTriggerConfig()"><span aria-hidden="true">&plus;</span></a>
+		<div class="row margin-right-0 margin-left-0 margin-top-10" >
+			<div class="col-xs-6 padding-left-0">
+				<div class="bg-blue-100 padding-10 min-height-120" ng-if="triggerConfig.selectedTrigger !== undefined">
+					{{triggerConfig.selectedTrigger.module}}<br />
+					<code>{{triggerConfig.selectedTrigger.event}}</code>
+				</div>
+				<div ng-if="triggerConfig.selectedTrigger === undefined">
+					Please select an Event
+				</div>
+			</div>
+			<div class="col-xs-6 padding-left-0 padding-right-0">
+				<div class="bg-blue-100 padding-10 min-height-120" ng-if="triggerConfig.selectedExecution !== undefined">
+					{{triggerConfig.selectedExecution.moduleReference.name}}<br />
+					<span ng-repeat="(k,v) in triggerConfig.selectedExecution.argumentMap">
+						<code>{{getargumentname(triggerConfig.selectedExecution.moduleReference,k)}} => {{getissensitive(triggerConfig.selectedExecution.moduleReference,k)?'[Encrypted]':v}}</code><br />
+					</span>
+				</div>
+				<div ng-if="triggerConfig.selectedExecution === undefined">
+					Please select an Execution
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

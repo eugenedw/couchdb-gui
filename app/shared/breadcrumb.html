@@ -1,0 +1,6 @@
+<ol class="breadcrumb">
+  <li ng-repeat="nav in breadcrumb()">
+  	<a ng-if="nav.path !== undefined" href="{{nav.path}}">{{nav.name}}</a>
+  	<a ng-if="nav.js !== undefined" href="javascript:void(0)" ng-click="nav.js">{{nav.name}}</a>
+  </li>
+</ol>

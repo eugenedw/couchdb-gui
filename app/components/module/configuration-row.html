@@ -1,0 +1,30 @@
+<div ng-if="fieldType(frv).toLowerCase() == 'string' 
+			|| fieldType(frv).toLowerCase() == 'boolean'
+			|| fieldType(frv).toLowerCase() == 'number'" class="row config-entry-wrapper">
+	<div class="col-xs-4">
+		<span class="field-name">{{frk}}</span> 
+	</div>
+	<div class="col-xs-8">
+		<input type="text" class="form-control field-value config-value-field" value="{{frv}}" placeholder="{{frk}}"/>
+	</div>
+</div>
+<div ng-if="fieldType(frv).toLowerCase() == 'object'" class="config-wrapper">
+	 <b>{{normalizeFieldName(frk)}}</b>
+	 <div ng-repeat="(frk, frv) in frv">
+	 	<div ng-include="'app/components/module/configuration-row.html'"></div>
+	 </div>
+</div>
+<div ng-if="fieldType(frv).toLowerCase() == 'array'" class="configuration-header">
+	<b>{{normalizeFieldName(frk)}} </b>
+	<a ng-click="blockToggle('fieldCollection_'+frk+'_'+$index)" class="push-right pull-right">
+		<i ng-if="blockvisible['fieldCollection_'+frk+'_'+$parent.$index]" class="menu-collapsible-icon glyphicon glyphicon-chevron-up ng-scope"></i>
+		<i ng-if="!blockvisible['fieldCollection_'+frk+'_'+$parent.$index]" class="menu-collapsible-icon glyphicon glyphicon-chevron-down ng-scope"></i>
+	</a>
+	<div ng-repeat="entry in frv track by $index" ng-if="blockvisible['fieldCollection_'+frk+'_'+$parent.$index]" id="fieldCollection_{{frk}}_{{$parent.$index}}">
+		<div ng-if="fieldType(entry).toLowerCase() == 'object'" class="config-wrapper">
+			<div ng-repeat="(frk, frv) in entry">
+				<div ng-include="'app/components/module/configuration-row.html'"></div>
+			</div>
+		</div>	 
+	</div>
+</div>

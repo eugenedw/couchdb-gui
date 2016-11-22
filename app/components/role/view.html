@@ -1,0 +1,43 @@
+<div class="page-wrap col-xs-9">
+  <h4>Viewing Role - <span class="green-800">{{currentrole.name}}</span></h4>
+  <p>
+  {{currentrole.description}}
+  </p>
+  <p />
+  <br />
+  <h4>Policies</h4>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-if="currentrole.policySet === undefined || currentrole.policySet == null || currentrole.policySet.length == 0">
+    No policies exist for this role.
+  </div>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-repeat="policy in currentrole.policySet">
+    <span ng-bind="policy.name" class="green-800 bold"></span>
+    <br />
+    <span ng-bind="policy.description"></span>
+    <br />
+	<div class="margin-top-10">
+		<small>
+			<b>ALLOW</b><br />
+			<span ng-repeat="p in policy.resourceMap['ALLOW']">
+				<code>{{p}}</code><br />
+			</span>
+			<span ng-if="policy.resourceMap['ALLOW'] === undefined || policy.resourceMap['ALLOW'].length == 0">
+				<code>No Permissions Added</code>
+			</span>
+		</small>
+	</div>
+	<div class="margin-top-10">
+		<small>
+			<b>DENY</b><br />
+			<span ng-repeat="p in policy.resourceMap['DENY']">
+				<code>{{p}}</code><br />
+			</span>
+			<span ng-if="policy.resourceMap['DENY'] === undefined || policy.resourceMap['DENY'].length == 0">
+				<code>No Permissions Added</code>
+			</span>
+		</small>
+	</div>
+  </div>
+  
+  <a class="btn btn-sm btn-info push-left" href="#/access/role/edit/{{currentrole.id}}">Edit Role</a>
+
+</div>

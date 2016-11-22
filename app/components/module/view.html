@@ -1,0 +1,21 @@
+<div class="page-wrap col-xs-9">
+  <h4>Viewing Module - <span class="green-800">{{currentmodule.name}}</span></h4>
+  <p>
+  {{currentmodule.description}}
+  </p>
+  <p />
+  <br />
+  <div class="bg-blue-100 padding-10 margin-bottom-10">
+  	<h4 class="pull-left push-left margin-bottom-0 margin-top-0">Configuration</h4>
+  	<button class="btn btn-primary btn-sm pull-right push-right" ng-click="collapseall()" ng-if="toggled()">Collapse All</button>
+  	<div class="clear"></div>
+  </div>
+  <div class="margin-bottom-20">
+  
+		  <div ng-repeat="(frk,frv) in currentmodule.configurationData" class="configuration-row">
+		  	<div ng-include="'app/components/module/configuration-row.html'"></div>
+		  </div>
+		  
+  </div> 
+
+</div>

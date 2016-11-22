@@ -1,0 +1,102 @@
+<div class="page-wrap col-xs-9">
+  <h4 ng-if="currentuser.id === undefined">Creating User</h4>
+  <h4 ng-if="currentuser.id !== undefined">Editing User - <span class="green-800">{{currentuser.name}}</span></h4>
+  <p />
+  <input type="text" class="form-control" 
+  			ng-model="currentuser.name" 
+  			placeholder="User Name" 
+  			maxlength="50" />
+  </p>
+  <textarea class="form-control" textlimit maxlength="1000" rows="7" cols="10" ng-model="currentuser.description" placeholder="User Description"></textarea>
+  <p />
+  <br />
+  <a class="btn btn-sm btn-info push-left" 
+	  ng-if="currentuser.id !== undefined"
+	  href="#/access/user/view/{{currentuser.id}}">Done</a>
+  
+  <button class="btn btn-success btn-sm push-right pull-right margin-left-5" 
+  		ng-click="saveUser()">Save</button>
+  <button class="btn btn-danger btn-sm push-right pull-right margin-left-5" 
+  		ng-if="currentuser.id !== undefined" ng-click="deletUser()">Delete</button>
+  
+  <div class="clear"></div>
+  <p />
+  <br />
+  <h4>Policies</h4>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-if="currentuser.policySet === undefined || currentuser.policySet == null || currentuser.policySet.length == 0">
+    No policies exist for this user.
+  </div>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-repeat="policy in currentuser.policySet">
+    <span ng-bind="policy.name" class="green-800 bold"></span>
+    <br />
+    <span ng-bind="policy.description"></span>
+    <br />
+	<div class="margin-top-10">
+		<small>
+			<b>ALLOW</b><br />
+			<span ng-repeat="p in policy.resourceMap['ALLOW']">
+				<code>{{p}}</code><br />
+			</span>
+			<span ng-if="policy.resourceMap['ALLOW'] === undefined || policy.resourceMap['ALLOW'].length == 0">
+				<code>No Permissions Added</code>
+			</span>
+		</small>
+	</div>
+	<div class="margin-top-10">
+		<small>
+			<b>DENY</b><br />
+			<span ng-repeat="p in policy.resourceMap['DENY']">
+				<code>{{p}}</code><br />
+			</span>
+			<span ng-if="policy.resourceMap['DENY'] === undefined || policy.resourceMap['DENY'].length == 0">
+				<code>No Permissions Added</code>
+			</span>
+		</small>
+	</div>
+  </div>
+  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#policySelectModal">Edit Policies</button>
+   
+  <br />&nbsp;<br />
+  
+  <h4>Roles</h4>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-if="currentuser.roleSet === undefined || currentuser.roleSet == null || currentuser.roleSet.length == 0">
+    No roles exist for this user.
+  </div>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-repeat="role in currentuser.roleSet">
+    <span ng-bind="role.name" class="green-800 bold"></span>
+    <br />
+    <span ng-bind="role.description"></span>
+    <div class="policy-detail margin-top-10 padding-top-10 dotted-border-top padding-20" ng-repeat="policy in role.policySet">
+		<b>{{policy.name}}</b>
+		<br />
+		{{policy.description}}
+	    <div class="margin-top-10">
+		     <small>
+		      	<b>ALLOW</b><br />
+				<span ng-repeat="p in policy.resourceMap['ALLOW']">
+					<code>{{p}}</code><br />
+				</span>
+				<span ng-if="policy.resourceMap['ALLOW'] === undefined || policy.resourceMap['ALLOW'].length == 0">
+					<code>No Permissions Added</code>
+				</span>
+		     </small>
+	    </div>
+      	<div class="margin-top-10">
+	      	<small>
+      			<b>DENY</b><br />
+      			<span ng-repeat="p in policy.resourceMap['DENY']">
+      				<code>{{p}}</code><br />
+      			</span>
+				<span ng-if="policy.resourceMap['DENY'] === undefined || policy.resourceMap['DENY'].length == 0">
+					<code>No Permissions Added</code>
+				</span>
+	      	</small>
+      	</div>
+     </div>
+  </div>
+  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#roleSelectModal">Edit Roles</button>
+</div>
+
+<div ng-include="'app/components/policy/inc-modal-selectpolicy.html'"></div>
+<div ng-include="'app/components/role/inc-modal-selectrole.html'"></div>
+

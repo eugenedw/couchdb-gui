@@ -1,0 +1,22 @@
+glyphicon glyphicon-home m5
+    <label class="tree-toggle nav-header glyphicon-icon-rpad">
+              <span class="glyphicon glyphicon-home m5"></span>Home</label></li>
+    <li><label class="tree-toggle nav-header glyphicon-icon-rpad">
+      <span class="glyphicon glyphicon-folder-close m5"></span>Manage
+                <span class="menu-collapsible-icon glyphicon glyphicon-chevron-down"></span></label>
+        <ul class="nav nav-list tree bullets">
+            <li><label class="tree-toggle nav-header">Applications</label>
+                <ul class="nav nav-list tree">
+                    <li ng-repeat="app in applicationlist"><a href="#/application/view/{{app.id}}">{{app.name}}</a></li>
+                </ul>
+            </li>
+            <li><label class="tree-toggle nav-header">Modules</label>
+                <ul class="nav nav-list tree">
+                    <li ng-repeat="mod in modulelist"><a href="#/module?id={{mod.id}}">{{mod.name}}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li class="divider"></li>
+        <li><label class="tree-toggle nav-header glyphicon-icon-rpad">
+                  <span class="glyphicon glyphicon-bell m5"></span>Alerts <span class="badge">5</span></label></li>

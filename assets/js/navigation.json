@@ -1,0 +1,65 @@
+[
+  {
+    "title" : "Home",
+    "glyph" : "glyphicon glyphicon-home m10",
+    "header" : true
+  },
+  {
+    "title" : "Manage",
+    "glyph" : "glyphicon glyphicon-folder-close m10",
+    "header" : true,
+    "children" : [
+      {
+        "title" : "Applications",
+        "header" : false,
+        "link" : "#/application/list",
+        "noarrow" : true
+      },
+      {
+        "title" : "Modules",
+        "header" : false,
+        "link" : "#/module/list",
+        "noarrow" : false
+      }]
+  },
+  {
+    "title" : "Access Management",
+    "header" : true,
+	"glyph" : "glyphicon glyphicon-certificate m10",
+    "children" : [
+    	{ 
+    		"title" : "Users", 
+    		"noarrow" : true, 
+    		"header" : false,
+    		"link" : "#/access/user/list" 
+    	},
+    	{ 
+    		"title" : "Policies", 
+    		"noarrow" : true, 
+    		"header" : false, 
+    		"link" : "#/access/policy/list" 
+    	},
+    	{ 	
+    		"title" : "Roles", 
+    		"noarrow" : true, 
+    		"header" : false, 
+    		"link" : "#/access/role/list" 
+    	}
+    ],
+    "noarrow" : false   
+  },
+  {
+    "title" : "Monitoring",
+    "header" : true,
+	"glyph" : "glyphicon glyphicon-eye-open m10",
+    "children" : [
+    	{ 
+    		"title" : "Nodes", 
+    		"noarrow" : true, 
+    		"header" : false,
+    		"link" : "#/monitor/node/list" 
+    	}
+    ],
+    "noarrow" : false   
+  }
+]

@@ -1,0 +1,43 @@
+<div class="page-wrap">
+
+	<div class="row">
+		<div class="col-xs-4">
+			<h4 class="pull-left">Policies</h4> 
+			<span class="pull-left list-button-wrapper">
+				<a class="btn btn-xs btn-success margin-top-0" 
+						href="#/access/policy/edit/new">Add New</a>
+			</span>
+			<div class='clear'></div>
+		</div>
+		<div class="col-xs-8">
+		</div>
+	</div>
+	
+	<div id="policy-list" class="component-list-wrapper padding-15">
+		
+		<div class="row component-row" ng-repeat="policy in policylist">
+			<div class="col-xs-9">
+				<span class="cmpname">
+					{{policy.name}}
+				</span> 
+				<small class="">({{policy.description}})</small>
+			</div>
+			<div class="col-xs-3">
+				<a href="#/access/policy/view/{{policy.id}}" class="push-right">View</a>
+				<span class="divider push-right"></span>
+				<a href="#/access/policy/edit/{{policy.id}}" class="push-right">Edit</a>
+				<div class="clear"></div>
+			</div>
+		</div>	
+		
+		<div class="row component-row" ng-if="policylist === undefined || policylist.length == 0">
+			<div class="col-xs-8">
+				<span class="cmpname">
+					No Policies Exist
+				</span> 
+			</div>
+		</div>
+	
+	</div>
+	
+</div>

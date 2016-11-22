@@ -1,0 +1,146 @@
+<!-- Edit Flow Modal -->
+<div class="modal fade" id="editFlowModal" 
+		tabindex="-1" role="dialog" 
+		aria-labelledby="Edit Flow">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+        	<span ng-if="newflow.id===undefined">Creating</span> 
+        	<span ng-if="newflow.id!=undefined">Editing</span> 
+        	Flow</h4>
+      </div>
+      <div class="modal-body">
+  <!--  flow editor -->
+  <div class='bg-blue-200 margin-top-0 margin-bottom-10 padding-20'>
+  	
+  	<div >
+	  <p>
+	  <b>Flow Name</b>
+	  <input type="text" class="form-control" 
+	  			nospace capitalize ng-model="newflow.name" 
+	  			placeholder="Flow Name" maxlength="50" />
+	  </p>
+	  <b>Flow Description</b>
+	  <textarea class="form-control" textlimit maxlength="1000" rows="7" cols="10" ng-model="newflow.description" placeholder="Flow Description"></textarea>
+	
+	  <div class="clear"></div>
+	
+	  <div class="margin-top-10">
+	  	<div>
+	  		<b>Schedule Type</b>
+		  	<select id="module-selector" class="form-control margin-top-5 margin-bottom-10" 
+		  				ng-if="appeditor.modref=='-1'"
+		  				ng-model="newflow.scheduleType">
+		  				<option value="">No Schedule</option>
+		  				<option value="FIXED_DELAY">Fixed Delay</option>
+		  				<option value="CRON">Cron</option>
+		  	</select>
+		  	<div class="input-group relative" ng-if="newflow.scheduleType=='FIXED_DELAY'">
+		  		<input type="text" class="form-control" ng-model="newflow.schedule" numeric placeholder="Enter Time"/>
+		  		<div class="input-group-btn">
+		  			<button type="button" class="btn btn-default margin-top-0"><span ng-bind="newflow.timeUnit || 'No Units'"></span></button>
+		  			<button type="button" class="btn btn-default dropdown-toggle margin-top-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Time Unit <span class="caret"></span></button>
+		  			<ul class="dropdown-menu dropdown-menu-right">
+		  				<li ng-repeat="tu in ['SECONDS','MINUTES','HOURS','DAYS']">
+		  					<a href="javascript:void(0)" ng-click="newflow.timeUnit=tu">{{tu}}</a>
+		  				</li>
+		  			</ul>
+		  		</div>
+		  	</div>
+		  	<input type="text" class="form-control" ng-model="newflow.schedule" ng-if="newflow.scheduleType=='CRON'" placeholder="Enter Cron String"/>
+		  	
+		  	<div class="margin-top-10 bg-blue-400 padding-20" ng-if="newflow.scheduleType=='CRON'">
+		  		<b>Example Expressions</b><br />
+		  		<code>0 0 * * * *</code> the top of every hour of every day.<br />
+				<code>*/10 * * * * *</code> every ten seconds.<br />
+				<code>0 0 8-10 * * *</code> 8, 9 and 10 o'clock of every day.<br />
+				<code>0 0/30 8-10 * * *</code> 8:00, 8:30, 9:00, 9:30 and 10 o'clock every day.<br />
+				<code>0 0 9-17 * * MON-FRI</code> on the hour nine-to-five weekdays<br />
+				<code>0 0 0 25 12 ?</code> every Christmas Day at midnight
+		  		</code>
+		  	</div>
+	  	</div>
+	  </div>
+	
+	  <div class="module-selector margin-top-20">
+	  	<b>Module Executions</b>
+	  	<div class="bg-blue-300 padding-10 margin-top-5" ng-if="appeditor.modref!='-1'">Please wait...</div>
+	  	<select id="module-selector" class="form-control margin-top-5" 
+	  				ng-if="appeditor.modref=='-1'"
+	  				ng-model="appeditor.modref"
+	  				ng-change="addExecutionToFlow(newflow,appeditor.modref)"
+	  				ng-options="mod.id as mod.name for mod in moduleselects">
+	  	</select>
+	  </div>
+	  <div class="margin-top-20 dotted-border-top">
+		<div id="flowExecution_{{$index}}" ng-repeat="exec in newflow.executionSet track by $index" class="bg-blue-100 margin-top-20 padding-20 execution-entry">
+			
+	        <a href="javascript:void(0)" type="button" class="push-right close-x" ng-click="deleteExecutionFromFlow(newflow,$index)"><span aria-hidden="true">&times;</span></a>
+	        
+			<b>{{exec.moduleReference.name}}</b>
+			<br />
+			<small class="blue-grey-400" ng-bind="exec.id || 'No ID Assigned to Execution'"></small>
+			<br />
+			{{exec.moduleReference.description}}
+			<div class="argument-wrapper margin-top-10">
+				<div ng-repeat="arg in $global.order(exec.moduleReference.argumentSet,'ordinal') track by $index" class="bg-blue-200 padding-10 margin-bottom-10">
+					<div class="row">
+						<div class="col-xs-5">
+							<span style="line-height: 30px"><b>{{arg.display}} 
+								<sup ng-if="!arg.optional" class="red-800">*</sup>
+								<sup ng-if="arg.sensitive" class="orange-800 pointer" title="This argument value is stored encrypted">!</sup>
+								</b></span>
+						</div>
+						<div class="col-xs-7" ng-if="arg.fieldType=='TEXT'">
+							<input type="text" class="form-control" ng-model="exec.argumentMap[arg.name]" placeholder='Enter the value for "{{arg.display}}"' />
+						</div>
+						<div class="col-xs-7" ng-if="arg.fieldType=='DATE'">
+							<input type="text" class="datepicker form-control" ng-model="exec.argumentMap[arg.name]" placeholder='Enter the value for "{{arg.display}}"' />
+						</div>
+						<div class="col-xs-7" ng-if="arg.fieldType=='NUMBER'">
+							<input type="text" class="form-control" numeric ng-model="exec.argumentMap[arg.name]" placeholder='Enter the value for "{{arg.display}}"' />
+						</div>
+						<div class="col-xs-7" ng-if="arg.fieldType=='SELECT'">
+						  	<select id="exec_selector_{{$index}}" class="form-control margin-top-5" 
+						  				ng-model="exec.argumentMap[arg.name]">
+						  		<option value="">Select {{arg.display}}</option>
+						  		<option value="{{k}}" ng-repeat="(k,v) in arg.choiceMap">{{v}}</option>
+						  	</select>
+						</div>
+						<div class="col-xs-7" ng-if="arg.fieldType=='MULTI_SELECT'">
+							<input type="text" class="form-control" ng-model="exec.argumentMap[arg.name]" placeholder='Enter the value for "{{arg.display}}"' />
+						</div>
+						<div class="col-xs-7" ng-if="arg.fieldType=='TEXTAREA'">
+							<textarea ng-model="exec.argumentMap[arg.name]" class="form-control" placeholder='Enter the value for "{{arg.display}}"' rows="10">{{exec.argumentMap[arg.name]}}</textarea>
+						</div>
+					</div>
+					<div class="row" ng-if="arg.sensitive">
+						<div class="col-xs-5"></div>
+						<div class="col-xs-7">
+							<small ng-if="exec.argumentMap['encrypted:'+arg.name] !== undefined">Sensitive value not displayed. Enter new value to overwrite.<br /></small>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br />	
+			<div class="push-left checkbox-wrapper">
+	      		<checkbox 
+	      				ng-model="newflow.initialExec[exec.id]" 
+	      				ng-change="setInitialExecution(newflow,exec.id)"></checkbox>
+	      				&nbsp;Intial Execution
+	      	</div>
+			<div class="clear"></div>
+		</div>
+	  </div>
+	
+	</div>
+	
+  </div>
+  
+  <button class="btn btn-sm btn-success push-right margin-top-10" ng-click="saveFlowToApplication(newflow)" data-dismiss="modal" aria-label="Save and Close">Save</button>
+      
+  <div class="clear"></div>
+  
+  <!-- //flow editor -->

@@ -1,0 +1,81 @@
+<div class="page-wrap">
+  <h4>Viewing Application - <span class="green-800">{{currentapplication.name}}</span></h4>
+  {{currentapplication.description}}
+  <p />
+  <br />
+  <b>Path: </b> <code>/{{currentapplication.path}}</code>
+  <h4 class="bg-grey-200 padding-10 margin-top-20"><b>Flows</b></h4>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-if="currentapplication.flowSet === undefined || currentapplication.flowSet.length == 0">
+  	No flows have been added to this application.
+  </div>
+  <div class="margin-bottom-20 dotted-border padding-20" ng-repeat="flow in currentapplication.flowSet track by $index">
+    <div class="row">
+    	<div class="col-xs-8">
+		    <span ng-bind="flow.name" class="green-800 bold"></span>
+
+			<span class="label label-danger" ng-if="!flow.enabled">Disabled</span> 
+			<span class="label label-success" ng-if="flow.enabled">Enabled</span> 
+			<span class="label label-info" ng-if="flow.scheduled">Scheduled</span>
+			<span class="label label-info" ng-if="!flow.scheduled">On Demand</span> 
+			
+			<div class="margin-top-10">
+			<code>/{{currentapplication.path}}/{{flow.path}}</code>
+			</div>
+			
+		    <div ng-bind="flow.description" class="margin-top-10"></div>
+		    <div class="execution-wrapper">
+		      <span class="bold green-800">Executions</span>
+		      <ul class="execution-list">
+		        <li class="module-reference bg-grey-200 margin-top-10 padding-10" ng-repeat="exec in flow.executionSet">
+		          <span class="bold" ng-bind="exec.moduleReference.name"></span>
+		          <br />
+		          <div class="argument-wrap margin-top-10">
+			          <div ng-repeat="(k,v) in exec.argumentMap">
+			          	<span class="argument-name blue-800">{{getargumentname(exec.moduleReference,k)}}</span> = <span class="argument-value">{{getissensitive(exec.moduleReference,k)?'[Encrypted]':v}}</span>
+			          </div>
+		          </div>
+		        </li>
+		      </ul>
+		    </div>
+    	</div>
+    	<div class="col-xs-4 dotted-border-left padding-left-10">
+	    	<div class="bg-grey-200 padding-10 padding-bottom-20">
+	    		<span class="bold">Schedule</span>
+	    		<br />
+	    		<span class="code-alt">
+	    			<span ng-bind="flow.schedule || 'N/A'"></span> 
+	    			<span ng-bind="flow.timeUnit" ng-if="flow.scheduleType=='FIXED_DELAY'"></span>
+	    		</span>
+	    		<br />
+	    		<div ng-if="flow.scheduleType=='CRON'||flow.scheduleType=='FIXED_DELAY'" class="margin-top-20">
+		    		<span class="bold">Assigned Node</span> 
+		    		<br />
+		    		<span class="code-alt" ng-if="flow.node !== undefined && flow.node != null">
+		    			<span ng-bind="flow.node.host"></span>:<span ng-bind="flow.node.port"></span>
+		    		</span>
+		    		<span class="code-alt" ng-if="flow.node == undefined || flow.node == null">
+		    			Unassigned
+		    		</span>
+		    		<br />
+		    		<br />
+		    		<span class="bold">Status</span>
+		    		<br />
+		    		<span class="code-alt">{{(flow.running?'Running':'Not Running')}}</span>
+				</div>
+	    		
+	    	</div>
+    	</div>
+    </div>
+  </div>
+  <a class="btn btn-sm btn-info push-left margin-right-5" 
+	  ng-if="currentapplication.id !== undefined"
+	  href="#/application/list">Done</a>
+  <a class="btn btn-sm btn-success push-left" href="#/application/edit/{{currentapplication.id}}">Edit Application</a>
+
+  <div class='clear'></div>
+
+  <div class="margin-top-20">
+  	<small class="grey-500" ng-if="currentapplication.id!==undefined">Version: {{currentapplication.version}}</small>
+  </div>
+  
+</div>

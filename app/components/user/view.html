@@ -1,0 +1,84 @@
+<div class="page-wrap col-xs-9">
+  <h4>Viewing <span class="green-800">{{currentuser.name}}</span></h4>
+  <p>
+  {{currentuser.description}}
+  </p>
+  <p />
+  <br />
+  <h4>Policies</h4>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-if="currentuser.policySet === undefined || currentuser.policySet == null || currentuser.policySet.length == 0">
+    No policies exist for this user.
+  </div>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-repeat="policy in currentuser.policySet">
+    <span ng-bind="policy.name" class="green-800 bold"></span>
+    <br />
+    <span ng-bind="policy.description"></span>
+    <br />
+	<div class="margin-top-10">
+		<small>
+			<b>ALLOW</b><br />
+			<span ng-repeat="p in policy.resourceMap['ALLOW']">
+				<code>{{p}}</code><br />
+			</span>
+			<span ng-if="policy.resourceMap['ALLOW'] === undefined || policy.resourceMap['ALLOW'].length == 0">
+				<code>No Permissions Added</code>
+			</span>
+		</small>
+	</div>
+	<div class="margin-top-10">
+		<small>
+			<b>DENY</b><br />
+			<span ng-repeat="p in policy.resourceMap['DENY']">
+				<code>{{p}}</code><br />
+			</span>
+			<span ng-if="policy.resourceMap['DENY'] === undefined || policy.resourceMap['DENY'].length == 0">
+				<code>No Permissions Added</code>
+			</span>
+		</small>
+	</div>
+  </div>
+  
+  <br />
+  <h4>Roles</h4>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-if="currentuser.roleSet === undefined || currentuser.roleSet == null || currentuser.roleSet.length == 0">
+    No roles exist for this user.
+  </div>
+  <div class="margin-bottom-20 bg-blue-grey-200 padding-20" ng-repeat="role in currentuser.roleSet">
+    <span ng-bind="role.name" class="green-800 bold"></span>
+    <br />
+    <span ng-bind="role.description"></span>
+    <div class="policy-detail margin-top-10 padding-top-10 dotted-border-top padding-20" ng-repeat="policy in role.policySet">
+		<b>{{policy.name}}</b>
+		<br />
+		{{policy.description}}
+	    <div class="margin-top-10">
+		     <small>
+		      	<b>ALLOW</b><br />
+				<span ng-repeat="p in policy.resourceMap['ALLOW']">
+					<code>{{p}}</code><br />
+				</span>
+				<span ng-if="policy.resourceMap['ALLOW'] === undefined || policy.resourceMap['ALLOW'].length == 0">
+					<code>No Permissions Added</code>
+				</span>
+		     </small>
+	    </div>
+      	<div class="margin-top-10">
+	      	<small>
+      			<b>DENY</b><br />
+      			<span ng-repeat="p in policy.resourceMap['DENY']">
+      				<code>{{p}}</code><br />
+      			</span>
+				<span ng-if="policy.resourceMap['DENY'] === undefined || policy.resourceMap['DENY'].length == 0">
+					<code>No Permissions Added</code>
+				</span>
+	      	</small>
+      	</div>
+     </div>
+  </div>
+  
+  <a class="btn btn-sm btn-info push-left margin-right-5" href="#/access/user/edit/{{currentuser.id}}">Edit User</a>
+  <a class="btn btn-sm btn-warning push-left" href="javascript:void(0)" data-toggle="modal" data-target="#viewApiKeyModal">View Keys</a>
+  
+</div>
+
+<div ng-include="'app/components/user/inc-modal-apikeys.html'"></div>

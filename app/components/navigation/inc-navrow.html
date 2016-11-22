@@ -1,0 +1,16 @@
+<!-- headers get labels -->
+<label ng-if="nav.header" class="tree-toggle nav-header" ng-class="{'glyphicon-icon-rpad':nav.glyph!==undefined}">
+  <span class="{{nav.glyph}}" ng-if="nav.glyph"></span>{{nav.title}}
+  <span class="menu-collapsible-icon glyphicon glyphicon-chevron-down" ng-if="nav.children && nav.children.length > 0 && !nav.noarrow"></span>
+</label>
+<!-- non-headers get standard text and links -->
+<span ng-if="!nav.header">
+  <a href="{{nav.link}}" ng-if="nav.link !== undefined">{{nav.title}}</a>
+  <span ng-if="nav.link === undefined">{{nav.title}}</span>
+</span>
+<!-- traverse the children, if they exist -->
+<ul class="nav nav-list tree" ng-class="{'bullets':nav.header!==undefined}" ng-if="nav.children && nav.children.length > 0">
+  <li ng-repeat="nav in nav.children">
+    <ng-include src="'app/components/navigation/inc-navrow.html'"></ng-include>
+  </li>
+</ul>

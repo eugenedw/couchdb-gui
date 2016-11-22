@@ -1,0 +1,39 @@
+<div class="page-wrap">
+
+	<div class="row">
+		<div class="col-xs-4">
+			<h4 class="pull-left">Modules</h4> 
+			<div class='clear'></div>
+		</div>
+		<div class="col-xs-8">
+		</div>
+	</div>
+	
+	<div id="module-list" class="component-list-wrapper padding-15">
+		
+		<div class="row component-row" ng-repeat="module in modulelist">
+			<div class="col-xs-5">
+				<span class="cmpname">
+					{{module.name}}
+				</span>
+				<br />
+				<small class="">{{module.description}}</small>
+			</div>
+			<div class="col-xs-4">
+			</div>
+			<div class="col-xs-3">
+				<a href="#/module/view/{{module.id}}" class="push-right">View</a>
+			</div>
+		</div>	
+		
+		<div class="row component-row" ng-if="modulelist === undefined || modulelist.length == 0">
+			<div class="col-xs-8">
+				<span class="cmpname">
+					No Modules Found
+				</span> 
+			</div>
+		</div>
+	
+	</div>
+	
+</div>

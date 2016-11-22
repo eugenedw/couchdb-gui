@@ -1,0 +1,5 @@
+<ul class="nav nav-list nav-menu-list-style" ng-class="{'collapsed':$global.toggledef('sidebar-collapse')}" ng-controller="NavigationCtrl">
+    <li ng-repeat="nav in navigation">
+      <ng-include src="'app/components/navigation/inc-navrow.html'"></ng-include> 
+    </li>
+</ul>

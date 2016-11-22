@@ -1,0 +1,89 @@
+<!-- flow tab wrapper -->
+<span ng-bind="currentflow.name" class="green-800 bold"></span>
+<small class="green-800 code-alt bg-blue-200" ng-if="currentflow.enabled">Enabled</small>
+<br />
+<code class="margin-top-5">/{{currentapplication.path}}/{{currentflow.path}}</code>
+<br />
+<div ng-bind="currentflow.description" class="padding-top-10 margin-bottom-20"></div>
+					   
+<div id="flow-tab-wrapper nav-tabs-horizontal" data-plugin="tabs">
+ 
+ 	  <ul class="nav nav-tabs" data-plugin="nav-tabs" role="tablist">
+ 	  	<li role="presentation" class="active" ng-class="{'active':$global.activeTab('appedit','available-flows')||!$global.activeTab('appedit')}"><a href="javascript:void(0)" ng-click="$global.setActiveTab('appedit','available-flows')" role="tab" data-toggle="tab">Executions</a></li>
+ 	  	<li role="presentation" ng-class="{'active':$global.activeTab('appedit','trigger-tree')}"><a href="javascript:void(0)" ng-click="$global.setActiveTab('appedit','trigger-tree')" role="tab" data-toggle="tab">Flow Execution Configuration</a></li>
+ 	  </ul>
+ 	  
+ 	  <div class="tab-content">
+  	  <!-- available flows tab -->
+  	  <div class="tab-pane active" ng-if="$global.activeTab('appedit','available-flows')||!$global.activeTab('appedit')" id="available-flows" role="tabpanel" >
+		  <div class="margin-top-10 margin-bottom-20">
+			<div class="row">
+			    	<div class="col-xs-8">
+					     <div class="execution-wrapper">
+					      <ul class="execution-list">
+					        <li class="module-reference bg-blue-100 margin-bottom-10 padding-10" ng-repeat="exec in currentflow.executionSet">
+					          <span class="bold" ng-bind="exec.moduleReference.name"></span>
+					          <br />
+					          <div class="argument-wrap margin-top-10">
+						          <div ng-repeat="(k,v) in exec.argumentMap">
+						            <span ng-bind="k" class="argument-name blue-800"></span> = <span ng-bind="v || 'No Value Provided'" class="argument-value"></span>
+						          </div>
+					          </div>
+					        </li>
+					      </ul>
+					    </div>
+					    <div ng-if="currentflow.triggerMap !== undefined && currentflow.triggerMap.length > 0">
+					    	<span ng-repeat="(k,v) in currentflow.triggerMap">
+					    		Event: {{k}}<br />
+					    		<span ng-repeat="exe in v">
+					    		{{exe}}<br />
+					    		</span>
+					    	</span>
+					    	{{currentflow.triggerMap}}
+					    </div>
+			    	</div>
+			    	<div class="col-xs-4 dotted-border-left padding-left-10">
+				    	<div class="bg-blue-100 padding-10 padding-bottom-20">
+				    		<span class="bold">Schedule</span>
+				    		<br />
+				    		<span class="code-alt">
+				    			<span ng-bind="currentflow.schedule || 'Not Scheduled'"></span> 
+				    			<span ng-bind="currentflow.timeUnit" ng-if="currentflow.scheduleType=='FIXED_DELAY'"></span>
+				    		</span>
+				    		<br />
+				    		<div ng-if="currentflow.scheduleType=='CRON'||currentflow.scheduleType=='FIXED_DELAY'" class="margin-top-20">
+					    		<span class="bold">Assigned Node</span> 
+					    		<br />
+					    		<span class="code-alt" ng-if="currentflow.node !== undefined && currentflow.node != null">
+					    			<span ng-bind="currentflow.node.host"></span>:<span ng-bind="currentflow.node.port"></span>
+					    		</span>
+					    		<span class="code-alt" ng-if="currentflow.node == undefined || currentflow.node == null">
+					    			Unassigned
+					    		</span>
+					    		<br />
+					    		<br />
+					    		<span class="bold">Status</span>
+					    		<br />
+					    		<span class="code-alt">{{(currentflow.running?'Running':'Not Running')}}</span>
+				    		</div>
+				    		
+				    	</div>
+			    	</div>
+			    </div>
+		    <div class="clear"></div>
+		  </div>
+		</div>
+		<!-- //available flows tab -->
+		
+		<!-- trigger tree tab -->
+		<div class="tab-pane active" ng-if="$global.activeTab('appedit','trigger-tree')" id="trigger-tree" role="tabpanel" >
+			
+			<div ng-include="'app/components/flow/inc-triggermap-edit.html'"></div>
+		
+		</div>
+		<!-- //trigger tree tab -->
+	</div>
+	<!-- // tabs  -->
+	
+ </div>
+ <!-- //flow tab wrapper -->

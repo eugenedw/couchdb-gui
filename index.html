@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="servicebus">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+	<!-- styles -->
+	<link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap-theme.min.css" />
+	<link rel="stylesheet" href="assets/lib/angular/angular-ui-tree.min.css" />
+	<link rel="stylesheet" href="assets/css/style.css" />
+	<link rel="stylesheet" href="assets/css/style.extended.css" />
+
+	<!-- libraries -->
+	<script type="text/javascript" src="assets/lib/angular/angular.min.js"></script>
+	<script type="text/javascript" src="assets/lib/angular/angular-ui-router.js"></script>
+	<script type="text/javascript" src="assets/lib/angular/angular-resource.min.js"></script>
+	<script type="text/javascript" src="assets/lib/angular/angular-aria.min.js"></script>
+	<script type="text/javascript" src="assets/lib/angular/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="assets/lib/angular/angular-ui-tree.js"></script>
+	<script type="text/javascript" src="assets/lib/angular/checkbox.js"></script>
+	<script type="text/javascript" src="assets/lib/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/lib/lodash/lodash.js"></script>
+
+	<!-- app -->
+	<script type="text/javascript" src="assets/js/app.js"></script>
+
+	<!-- services -->
+	<script type="text/javascript" src="assets/js/services/globalsvc.js"></script>
+	<script type="text/javascript" src="assets/js/services/daosvc.js"></script>
+	<script type="text/javascript" src="assets/js/services/applicationsvc.js"></script>
+	<script type="text/javascript" src="assets/js/services/moduleconfigurationsvc.js"></script>
+	<script type="text/javascript" src="assets/js/services/modulesvc.js"></script>
+	<script type="text/javascript" src="assets/js/services/flowsvc.js"></script>
+	<script type="text/javascript" src="assets/js/services/usersvc.js"></script>
+	<script type="text/javascript" src="assets/js/services/policysvc.js"></script>
+	<script type="text/javascript" src="assets/js/services/rolesvc.js"></script>
+	<script type="text/javascript" src="assets/js/services/nodesvc.js"></script>
+
+	<!-- controllers -->
+	<script type="text/javascript" src="assets/js/controllers/mainctrl.js"></script>
+	<script type="text/javascript" src="assets/js/controllers/applicationctrl.js"></script>
+	<script type="text/javascript" src="assets/js/controllers/modulectrl.js"></script>
+	<script type="text/javascript" src="assets/js/controllers/flowctrl.js"></script>
+	<script type="text/javascript" src="assets/js/controllers/navigationctrl.js"></script>
+	<script type="text/javascript" src="assets/js/controllers/userctrl.js"></script>
+	<script type="text/javascript" src="assets/js/controllers/policyctrl.js"></script>
+	<script type="text/javascript" src="assets/js/controllers/rolectrl.js"></script>
+	<script type="text/javascript" src="assets/js/controllers/nodectrl.js"></script>
+
+	<!-- directives -->
+	<script type="text/javascript" src="assets/js/directives/core.js"></script>
+	
+	<!-- domain -->
+	<script type="text/javascript" src="assets/js/domain/domain.js"></script>
+	
+	<!-- filters -->
+	
+	<script type="text/javascript">
+	var appcontext = "servicebus"
+	var _baseurl = (function(){
+						var href = window.location.href;
+						var hostportpath = href.split("//")[1];
+						var protocol = href.split("//")[0];
+						href = protocol+"//"+hostportpath.substring(0,hostportpath.indexOf("/"));
+						//check context
+						if( hostportpath.split("/").length > 2 
+								&& hostportpath.split("/")[1] == appcontext ){
+							href += "/" + appcontext;
+						}
+						return href;
+					}).call(); 
+	</script>
+
+</head>
+
+<body ng-controller="MainCtrl">
+	<div id="alert-message" ng-class="{'show' : $global.alertbanner.showing }">
+		<div class="alert alert-warning margin-top-20">
+			{{$global.alertbanner.message}}
+		</div>
+	</div>
+	<div ng-include="'app/shared/savewait.html'" ng-if="1==2"></div>
+	
+	<a href="javascript:void(0);" class="nav-collapse" ng-class="{'collapsed':$global.toggledef('sidebar-collapse')}" ng-click="$global.toggle('sidebar-collapse')" ng-controller="NavigationCtrl">
+		<span class="grey-600 action" ng-if="!$global.toggledef('sidebar-collapse')">&laquo;</span>
+		<span class="grey-600 action" ng-if="$global.toggledef('sidebar-collapse')">&raquo;</span>
+	</a>
+	<div class="row margin-left-0 page-header-wrapper">
+		<div class="col col-xs-12 padding-left-0 padding-right-0">
+			<div ng-include src="'app/shared/header.html'"></div>
+		</div>
+	</div>
+	<div class="row full-height margin-left-0">
+		<div class="col col-xs-2 navigation-wrap navbar navbar-fixed-top">
+			<div class="side-navigation">
+			<div ng-include src="'app/shared/sidenavigation.html'"></div>
+			</div>
+		</div>
+		<div class="col main-wrap" ng-class="{'collapsed col-xs-12':$global.toggledef('sidebar-collapse'),'col-xs-10':!$global.toggledef('sidebar-collapse')}">
+				<div class="row margin-left-0">
+					<div id="breadcrumb" class="col-xs-12 header-wrap ">
+						<div ng-include src="'app/shared/breadcrumb.html'"></div>
+					</div>
+				</div>
+				<div class="row body-wrap margin-left-0">
+					<div class="col-xs-12 main-view-wrap" ui-view>
+					</div> 
+				</div>
+		</div>
+	</div>
+	<div ng-include="'app/shared/inc-modal-alertmodal.html'"></div>
+</body>
+
+</html>

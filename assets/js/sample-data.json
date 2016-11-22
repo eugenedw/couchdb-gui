@@ -1,0 +1,51 @@
+{
+  "applicationlist" : [
+    {"name": "Primary Care Manager", "id": "app_primarycaremanager", "description": "Aliquam bibendum pretium sapien, id molestie magna. Maecenas eu efficitur nibh. Donec aliquam leo eget ante sagittis dignissim. Donec auctor facilisis ipsum at eleifend. Vestibulum facilisis ante id dui ultrices, vitae aliquam erat maximus. Maecenas porttitor feugiat lacus, a lobortis ligula. In ac neque velit. Phasellus egestas erat sed sollicitudin venenatis. Vestibulum id mollis tellus. ", "flowSet" : [
+      {
+        "id": "flow_initial",
+        "name": "Initial Flow",
+        "description": "Duis aliquam semper velit, eu porta elit finibus non. Sed laoreet nisl vitae ante vulputate, et gravida ex efficitur. Praesent nisl risus, lacinia in eros sollicitudin, placerat iaculis libero.",
+        "executionList": [
+          {
+            "moduleReference" : "mod_correspondencemodule",
+            "argumentMap" : {
+              "product" : "PRIMARY_CARE_MANAGER",
+              "action" : "VALIDATE"
+            }
+          },
+          {  "moduleReference" : "mod_correspondencemodule",
+            "argumentMap" : {
+              "product" : "PRIMARY_CARE_MANAGER",
+              "action" : "ACCEPT"
+            }
+          },
+          {  "moduleReference" : "mod_schedulejobmodule",
+            "argumentMap" : {
+              "flowPath" : "/app_primarycaremanager/flow_consolidate"
+            }
+          }
+        ]
+      },
+      {
+        "id" : "flow_consolidate",
+        "name" : "Consolidate Correspondences",
+        "description" : "Fusce euismod eros quis augue laoreet aliquet. Donec euismod sed neque vel finibus. Pellentesque eu laoreet justo. Sed enim nisl, pellentesque sed faucibus at, gravida ac nisl. Aliquam condimentum lacinia dapibus. ",
+        "executionList" : [
+          {
+            "moduleReference" : "mod_correspondencemodule",
+            "argumentMap" : {
+              "product" : "PRIMARY_CARE_MANAGER",
+              "action" : "CONSOLIDATE"
+            }
+          }
+        ]
+      }
+      ]}
+    ],
+    "modulelist" : [
+      {"name": "Correspondence Module", "description": "My description", "id": "mod_correspondencemodule"
+      		, "schema" : {"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Configuration","properties":{"productSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Product","properties":{"id":{"type":"string"},"name":{"type":"string"},"code":{"type":"string"},"outputSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Output","properties":{"id":{"type":"string"},"name":{"type":"string"},"active":{"type":"boolean"},"templateSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Template","properties":{"id":{"type":"string"},"type":{"type":"string"},"name":{"type":"string"}}}},"formatSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Format","properties":{"id":{"type":"string"},"version":{"type":"integer"},"effectiveDate":{"type":"integer","format":"utc-millisec"},"fieldSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Field","properties":{"id":{"type":"string"},"type":{"type":"string"},"name":{"type":"string"},"startColumn":{"type":"integer"},"endColumn":{"type":"integer"},"columnName":{"type":"string"},"keyName":{"type":"string"},"supportName":{"type":"string"},"nationalChangeOfAddressName":{"type":"string"},"updateName":{"type":"string"}}}}}}}}}}}}},"vendorSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Vendor","properties":{"id":{"type":"integer"},"name":{"type":"string"},"pointOfContactSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:PointOfContact","properties":{"id":{"type":"string"},"emailAddress":{"type":"string"},"type":{"type":"string"}}}},"vendorOutputSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:VendorOutput","properties":{"outputId":{"type":"string"},"segment":{"type":"integer"},"effectiveDate":{"type":"integer","format":"utc-millisec"},"endDate":{"type":"integer","format":"utc-millisec"}}}}}}},"notificationEventSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Event","properties":{"id":{"type":"string"},"outputId":{"type":"string"},"templateId":{"type":"string"},"type":{"type":"string"},"code":{"type":"string"},"thresholdQuantity":{"type":"integer"},"thresholdCode":{"type":"string"},"notifyVendor":{"type":"boolean"},"pointOfContactSet":{"type":"array","items":{"type":"object","$ref":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:PointOfContact"}}}}}}}},
+      {"name": "Schedule Job Module", "description": "My description", "id": "mod_schedulejobmodule"
+      		, "schema" : {"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Configuration","properties":{"productSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Product","properties":{"id":{"type":"string"},"name":{"type":"string"},"code":{"type":"string"},"outputSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Output","properties":{"id":{"type":"string"},"name":{"type":"string"},"active":{"type":"boolean"},"templateSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Template","properties":{"id":{"type":"string"},"type":{"type":"string"},"name":{"type":"string"}}}},"formatSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Format","properties":{"id":{"type":"string"},"version":{"type":"integer"},"effectiveDate":{"type":"integer","format":"utc-millisec"},"fieldSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Field","properties":{"id":{"type":"string"},"type":{"type":"string"},"name":{"type":"string"},"startColumn":{"type":"integer"},"endColumn":{"type":"integer"},"columnName":{"type":"string"},"keyName":{"type":"string"},"supportName":{"type":"string"},"nationalChangeOfAddressName":{"type":"string"},"updateName":{"type":"string"}}}}}}}}}}}}},"vendorSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Vendor","properties":{"id":{"type":"integer"},"name":{"type":"string"},"pointOfContactSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:PointOfContact","properties":{"id":{"type":"string"},"emailAddress":{"type":"string"},"type":{"type":"string"}}}},"vendorOutputSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:VendorOutput","properties":{"outputId":{"type":"string"},"segment":{"type":"integer"},"effectiveDate":{"type":"integer","format":"utc-millisec"},"endDate":{"type":"integer","format":"utc-millisec"}}}}}}},"notificationEventSet":{"type":"array","items":{"type":"object","id":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:Event","properties":{"id":{"type":"string"},"outputId":{"type":"string"},"templateId":{"type":"string"},"type":{"type":"string"},"code":{"type":"string"},"thresholdQuantity":{"type":"integer"},"thresholdCode":{"type":"string"},"notifyVendor":{"type":"boolean"},"pointOfContactSet":{"type":"array","items":{"type":"object","$ref":"urn:jsonschema:mil:osd:dmdc:servicebus:module:correspondence:domain:configuration:PointOfContact"}}}}}}}}
+    ]
+  }

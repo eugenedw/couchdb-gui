@@ -1,0 +1,45 @@
+  <!--  flow editor -->
+  
+  <div class='margin-top-10 margin-bottom-10'>
+	  
+	  	<h4>{{currentflow.name}}</h4>
+	  
+		  <div id="flow-tab-wrapper nav-tabs-horizontal margin-top-10" data-plugin="tabs">
+	 
+		 	  <ul class="nav nav-tabs" data-plugin="nav-tabs" role="tablist">
+		 	  	<li role="presentation" class="active" ng-class="{'active':$global.activeTab('appedit','general-settings')||!$global.activeTab('appedit')}"><a href="javascript:void(0)" ng-click="$global.setActiveTab('appedit','general-settings')" role="tab" data-toggle="tab">General Settings</a></li>
+		 	  	<li role="presentation" ng-class="{'active':$global.activeTab('appedit','available-flows')&&currentflow.existing,'disabled':!currentflow.existing}"><a href="javascript:void(0)" ng-click="checkflowstate(currentflow,'available-flows')" role="tab" data-toggle="tab">Executions</a></li>
+		 	  	<li role="presentation" ng-class="{'active':$global.activeTab('appedit','trigger-tree')&&currentflow.existing,'disabled':!currentflow.existing}"><a href="javascript:void(0)" ng-click="checkflowstate(currentflow,'trigger-tree')" role="tab" data-toggle="tab">Triggers</a></li>
+		 	  </ul>
+		 	  
+		 	  <div class="tab-content">
+		 	  
+		 	  <!-- general settings tab -->
+		  	  <div class="tab-pane active" ng-if="$global.activeTab('appedit','general-settings')||!$global.activeTab('appedit')" id="general-settings" role="tabpanel" >
+				  <div ng-include="'app/components/flow/inc-general-settings.html'"></div>
+			  </div>
+			  <!-- //general settings tab -->
+		 	  
+		  	  <!-- available executions tab -->
+		  	  <div class="tab-pane active" ng-if="$global.activeTab('appedit','available-flows')" id="available-flows" role="tabpanel" >
+				  <div ng-include="'app/components/flow/inc-execution-edit.html'"></div>
+			  </div>
+			  <!-- //available executions tab -->
+				
+			  <!-- trigger tree tab -->
+			  <div class="tab-pane active" ng-if="$global.activeTab('appedit','trigger-tree')" id="trigger-tree" role="tabpanel" >
+				  <div ng-include="'app/components/flow/inc-triggermap-edit.html'"></div>
+			  </div>
+			  <!-- //trigger tree tab -->
+		  
+			  </div>
+			  <!-- // tabs  -->
+				
+		 </div>
+		 <!-- //flow tab wrapper -->
+	
+  </div>
+  
+  <div class="clear"></div>
+  
+  <!-- //flow editor -->
