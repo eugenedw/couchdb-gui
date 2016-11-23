@@ -1,0 +1,56 @@
+<!-- Edit Flow Modal -->
+<div class="modal fade" id="configureConnectionModal"
+		tabindex="-1" role="dialog"
+		aria-labelledby="Configure Connection">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="configureConnectionModalLabel">
+        	Configure Database Connection</h4>
+      </div>
+      <div class="modal-body">
+  <!--  flow editor -->
+  <div class='bg-blue-200 margin-top-0 margin-bottom-10 padding-20'>
+
+  	<div >
+	  <p>
+	  <b>Server Hostname</b>
+	  <input type="text" class="form-control"
+	  			ng-model="connection.hostname"
+	  			placeholder="http://mycouchdbhost" maxlength="250" />
+	  </p>
+
+		<p>
+	  <b>Server Port</b>
+	  <input type="text" class="form-control"
+	  			ng-model="connection.port"
+	  			placeholder="Server Port" maxlength="5" />
+	  </p>
+
+		<p>
+		<b>Username</b>
+		<input type="text" class="form-control"
+				ng-model="connection.username"
+				placeholder="Username" maxlength="40" />
+		</p>
+
+		<p>
+		<b>Password</b>
+		<input type="password" class="form-control"
+		ng-model="connection.password"
+		placeholder="Password" maxlength="40" />
+		</p>
+
+	  <div class="clear"></div>
+
+
+	</div>
+
+  </div>
+
+  <button class="btn btn-sm btn-success push-right margin-top-10" ng-click="connect()" data-dismiss="modal" aria-label="Connect to Server">Connect</button>
+
+  <div class="clear"></div>
+
+  <!-- //flow editor -->

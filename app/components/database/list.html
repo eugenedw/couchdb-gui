@@ -1,0 +1,54 @@
+<div class="page-wrap">
+
+	<div class="row">
+		<div class="col-xs-4">
+			<h4 class="pull-left">Applications</h4> 
+			<span class="pull-left list-button-wrapper">
+				<a class="btn btn-xs btn-success margin-top-0" 
+						href="#/application/edit/new">Add New</a>
+			</span>
+			<div class='clear'></div>
+		</div>
+		<div class="col-xs-8">
+		</div>
+	</div>
+	
+	<div id="application-list" class="component-list-wrapper padding-15">
+		
+		<div class="row component-row" ng-repeat="app in applicationlist">
+			<div class="col-xs-5">
+				<span class="cmpname">
+					{{app.name}}
+				</span>
+				<br />
+				<small class="">/{{app.path}}</small>
+			</div>
+			<div class="col-xs-4">
+				<small class="bg-blue-grey-200 padding-5">
+					<b>Flows</b> {{app.flowSet===undefined?"0":""}}{{app.flowSet.length}}
+				</small>
+				<small class="bg-blue-grey-200 padding-5 dotted-border-left" ng-if="app.flowSet !== undefined && app.flowSet.length > 0">
+					<b>Executions</b>  {{getexecutioncount(app.flowSet)}}
+				</small>
+			</div>
+			<div class="col-xs-3">
+				<a href="#/application/view/{{app.id}}" class="push-right">View</a>
+				<span class="divider push-right"></span>
+				<a href="#/application/edit/{{app.id}}" class="push-right">Edit</a>
+				<div class="divider push-right"></div>
+				<a href="javascript:void(0)" ng-click="deleteApplication(app)" class="push-right">Delete</a>
+				<div class="clear"></div>
+			</div>
+		</div>	
+		
+		<div class="row component-row" ng-if="applicationlist === undefined || applicationlist.length == 0">
+			<div class="col-xs-8">
+				<span class="cmpname">
+					No Applications Defined
+				</span> 
+			</div>
+		</div>
+	
+	</div>
+	
+</div>

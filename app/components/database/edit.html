@@ -1,0 +1,75 @@
+<div class="page-wrap">
+
+  <div id="merge-alert" class="alert alert-warning alert-dismissible" role="alert" ng-show="$global.toggledef('application-merge-complete')">
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="$global.toggle('application-merge-complete')"><span aria-hidden="true">&times;</span></button>
+	  <strong>Warning!</strong> Merge is complete. Please review the application configuration and save if the changes are acceptable.
+  </div>
+
+  <div id="application-edit-wrapper" ng-if="!$global.toggledef(['show-application-flows','edit-application-flow','view-application-flow'])">
+  
+	  <h4>
+	  	<span ng-if="currentapplication.id === undefined">Creating</span>
+	  	<span ng-if="currentapplication.id != undefined">Editing</span>
+	  	Application
+	  </h4>
+	  <p>
+	  <input type="text" class="form-control" 
+	  			nospace capitalize ng-model="currentapplication.name" 
+	  			placeholder="Application Name" 
+	  			maxlength="50" />
+	  </p>
+	  <textarea class="form-control" textlimit maxlength="1000" rows="7" cols="10" ng-model="currentapplication.description" placeholder="Application Description"></textarea>
+	  <p />
+	  <br />
+	  <button class="btn btn-success btn-sm push-left pull-left margin-right-5" 
+	  		ng-click="saveApplication()">Save</button>
+	  <a class="btn btn-sm btn-info push-left" 
+		  ng-if="currentapplication.id !== undefined"
+		  href="#/application/list">Done</a>
+		  
+	  <button class="btn btn-primary btn-sm push-right pull-right" 
+	  		ng-if="!$global.toggledef('show-application-flows') && currentapplication.id !== undefined" 
+	  		ng-click="prepareFlowList()">Flows <span class="right-arrow"></span></button>
+	  <div class="clear"></div>
+	  
+  </div>
+  
+  <div id="flow-list-wrapper" ng-if="$global.toggledef('show-application-flows')">
+  	  
+	  <div class="margin-bottom-10 margin-top-20 padding-10 dotted-border" ng-if="currentapplication.flowSet === undefined || currentapplication.flowSet.length == 0">
+	  	No flows have been added for this application.
+	  </div>
+	  
+	  <div ng-include="'app/components/flow/list.html'" class="margin-bottom-20"></div>
+		
+	  <button class="btn btn-info btn-sm push-left pull-left" ng-click="$global.toggle('show-application-flows')"><span class="left-arrow"></span> Application</button>
+	  <button class="btn btn-primary btn-sm push-right pull-right" ng-click="prepareFlowAdd()">Add Flow</button>
+	  
+  </div>
+  
+  <div id="flow-edit-wrapper" ng-if="$global.toggledef('edit-application-flow')">
+  
+	  <div ng-include="'app/components/flow/edit.html'" class="margin-bottom-20"></div>
+	  
+	  <button class="btn btn-info btn-sm push-left pull-left" ng-click="prepareFlowList()"><i class="left-arrow"></i> Flows</button>
+	  <button class="btn btn-sm btn-success push-right" ng-click="saveFlowToApplication(currentflow)" data-dismiss="modal" aria-label="Save">Save</button>
+      
+  </div>
+  
+  <div id="flow-view-wrapper" ng-if="$global.toggledef('view-application-flow')">
+  
+	  <div ng-include="'app/components/flow/view.html'" class="margin-bottom-20"></div>
+	  
+	  <button class="btn btn-info btn-sm push-left pull-left" ng-click="$global.toggle('show-application-flows');$global.toggle('edit-application-flow','hide');$global.toggle('view-application-flow','hide')"><i class="left-arrow"></i> Flows</button>
+	  <button class="btn btn-sm btn-primary pull-right" ng-click="prepareFlowEdit(currentflow)">Edit</button>
+		    
+  </div>
+  
+  <div class="clear"></div>
+  
+  <div class="margin-top-20">
+  	<small class="grey-500" ng-if="currentapplication.id!==undefined">Version: {{currentapplication.version}}</small>
+  </div>
+  
+</div>
+

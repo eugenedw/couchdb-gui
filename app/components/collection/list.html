@@ -1,0 +1,114 @@
+ <div class="row component-row margin-left-0 margin-right-0 margin-bottom-20 margin-top-20" ng-repeat="flow in currentapplication.flowSet">
+	<a class="row-collapse" href="javascript:void(0);" ng-click="$global.toggle('display-flow-detail-'+flow.name)">
+		<span class="menu-collapsible-icon glyphicon" ng-class="{'glyphicon-chevron-right':!$global.toggledef('display-flow-detail-'+flow.name),'glyphicon-chevron-down':$global.toggledef('display-flow-detail-'+flow.name)}"></span>
+	</a>
+	<div class="col-xs-10 component-row-detail">
+		
+		<span class="cmpname">
+				{{flow.name}} 
+			<span class="label label-danger" ng-if="!flow.enabled">Disabled</span> 
+			<span class="label label-success" ng-if="flow.enabled">Enabled</span> 
+			<span class="label label-info" ng-if="flow.scheduled">Scheduled</span>
+			<span class="label label-info" ng-if="!flow.scheduled">On Demand</span> 
+		</span>
+		
+		<div class="labeled-box margin-top-30 margin-bottom-10" ng-class="{'collapsed':!$global.toggledef('display-flow-detail-'+flow.name)}">
+			<label>Info</label>
+			
+			<div class="row">
+				<div class="col-xs-2">
+					<small>
+						<span class="bold">Path</span> :
+					</small>
+				</div>
+				<div class="col-xs-10">
+					<small>
+						<span class="code-alt">/{{currentapplication.path}}/{{flow.path}}</span>
+					</small>
+				</div>
+			</div>
+				
+			<!-- flow.scheduled -->
+			<div ng-if="flow.scheduled">
+				<div class="row">
+					<div class="col-xs-2">
+						<small>
+							<span class="bold">Schedule</span> :
+						</small>
+					</div>
+					<div class="col-xs-10">
+						<small>
+			    		<span class="code-alt">
+			    			<span ng-bind="flow.schedule"></span> 
+			    			<span ng-bind="flow.timeUnit" ng-if="flow.scheduleType=='FIXED_DELAY'"></span>
+			    		</span>
+						</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-2">
+						<small>
+							<span class="bold">Node</span> :
+						</small>
+					</div>
+					<div class="col-xs-10">
+						<small>
+			    		<span class="code-alt" ng-if="flow.node !== undefined && flow.node != null">
+			    			<span ng-bind="flow.node.host"></span>:<span ng-bind="flow.node.port"></span>
+			    		</span>
+						</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-2">
+						<small>
+							<span class="bold">Status</span> :
+						</small>
+					</div>
+					<div class="col-xs-10">
+						<small>
+							<span class="code-alt" ng-bind="flow.running || 'Not Running'"></span>
+						</small>
+					</div>
+				</div>
+    		</div>
+    		<!-- //flow.scheduled -->
+    		
+		</div>
+		
+		<div class="labeled-box margin-top-20 margin-bottom-10" ng-class="{'collapsed':!$global.toggledef('display-flow-detail-'+flow.name)}">
+			<label>Executions</label>
+			<div class="margin-bottom-10 padding-10" ng-if="flow.executionSet === undefined || flow.executionSet.length == 0">
+				No executions have been added to this flow.
+			</div>
+			<div class="margin-bottom-10 padding-10 dotted-border" ng-repeat="execution in flow.executionSet">
+				<div class="push-left">
+					<small class="bg-blue-grey-200 padding-5 dotted-border-left">
+						<b>{{execution.moduleReference.name}}</b>
+					</small>
+					<br />
+					<small>
+						<span ng-repeat="(k,v) in execution.argumentMap">
+							<code>
+								{{getargumentname(execution.moduleReference,k)}} => {{getissensitive(execution.moduleReference,k)?'[Encrypted]':v}}
+							</code>
+							<br ng-if="!$last" />
+						</span>
+					</small>
+				</div>
+				<div ng-if="execution.id == flow.initial" class="push-right">
+					<small class="blue-800"><b>INITIAL</b></small>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-2 component-row-actions">
+		<a href="javascript:void(0)" 
+ 					ng-click="prepareFlowEdit(flow)" 
+ 					class="push-right">Edit</a>
+		<div class="divider push-right"></div>
+		<a href="javascript:void(0)" ng-click="deleteFlowFromApplication($index)" class="push-right">Delete</a>
+		<div class="clear"></div>
+	</div>
+ </div>	
