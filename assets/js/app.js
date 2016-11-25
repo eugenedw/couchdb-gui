@@ -1,93 +1,34 @@
-var servicebus = angular.module('servicebus', [ 'ui.router', 'ui.checkbox', 'ui.tree' ]);
+var couchdbgui = angular.module('couchdb-gui', [ 'ui.router', 'ui.checkbox', 'ui.tree', 'infinite-scroll' ]);
+angular.module('infinite-scroll').value('THROTTLE_MILLISECONDS', 1000)
 var appmode = "live";
 
 // configure our routes
-servicebus.config(function($stateProvider, $urlRouterProvider) {
+couchdbgui.config(function($stateProvider, $urlRouterProvider) {
 
 	$stateProvider
 
-	.state('nodelist', {
-		url : '/monitor/node/list',
-		templateUrl : 'app/components/node/list.html',
-		controller : 'NodeCtrl'
-	})
-	
-	.state('appedit', {
-		url : '/application/edit/:id',
-		templateUrl : 'app/components/application/edit.html',
-		controller : 'ApplicationCtrl'
+	.state('editview', {
+		url : '/design/view/edit/:id',
+		templateUrl : 'app/components/design/view/edit.html',
+		controller : 'DatabaseCtrl'
 	})
 
-	.state('appview', {
-		url : '/application/view/:id',
-		templateUrl : 'app/components/application/view.html',
-		controller : 'ApplicationCtrl'
+	.state('viewlist', {
+		url : '/design/view/list',
+		templateUrl : 'app/components/design/view/list.html',
+		controller : 'DatabaseCtrl'
 	})
 
-	.state('applist', {
-		url : '/application/list',
-		templateUrl : 'app/components/application/list.html',
-		controller : 'ApplicationCtrl'
+	.state('documentview', {
+		url : '/documents/view/:id',
+		templateUrl : 'app/components/document/view.html',
+		controller : 'DocumentCtrl'
 	})
 
-	.state('flowview', {
-		url : '/flow/view/:id',
-		templateUrl : 'app/components/flow/view.html',
-		controller : 'FlowCtrl'
-	})
-
-	.state('flowlist', {
-		url : '/flow/list',
-		templateUrl : 'app/components/flow/list.html',
-		controller : 'FlowCtrl'
-	})
-
-	.state('moduleview', {
-		url : '/module/view/:id',
-		templateUrl : 'app/components/module/view.html',
-		controller : 'ModuleCtrl'
-	})
-
-	.state('modulelist', {
-		url : '/module/list',
-		templateUrl : 'app/components/module/list.html',
-		controller : 'ModuleCtrl'
-	})
-
-	.state('policyview', {
-		url : '/access/policy/view/:id',
-		templateUrl : 'app/components/policy/view.html',
-		controller : 'PolicyCtrl'
-	})
-
-	.state('policyedit', {
-		url : '/access/policy/edit/:id',
-		templateUrl : 'app/components/policy/edit.html',
-		controller : 'PolicyCtrl'
-	})
-
-	.state('policylist', {
-		url : '/access/policy/list',
-		templateUrl : 'app/components/policy/list.html',
-		controller : 'PolicyCtrl'
-	})
-
-	.state('roleview', {
-		url : '/access/role/view/:id',
-		templateUrl : 'app/components/role/view.html',
-		controller : 'RoleCtrl'
-	})
-
-	.state('roleedit', {
-		url : '/access/role/edit/:id',
-		templateUrl : 'app/components/role/edit.html',
-		controller : 'RoleCtrl'
-	})
-
-	.state('rolelist', {
-		url : '/access/role/list',
-		templateUrl : 'app/components/role/list.html',
-		controller : 'RoleCtrl'
+	.state('documentlist', {
+		url : '/documents/list',
+		templateUrl : 'app/components/document/list.html',
+		controller : 'DocumentCtrl'
 	})
 
 	.state('userview', {
@@ -110,15 +51,13 @@ servicebus.config(function($stateProvider, $urlRouterProvider) {
 
 	.state('home', {
 		url : '/home',
-		templateUrl : 'app/home.html',
-		controller : 'MainCtrl'
+		templateUrl : 'app/home.html'
 	});
 
 	$urlRouterProvider.otherwise('home');
-	
 
 });
 
-servicebus.run(function($rootScope,$global){
+couchdbgui.run(function($rootScope,$global){
 	$rootScope.$global = $global;
 });

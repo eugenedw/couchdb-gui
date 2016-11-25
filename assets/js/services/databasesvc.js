@@ -1,4 +1,4 @@
-servicebus
+couchdbgui
 .factory('DatabaseService', function($http,$rootScope,$global,DAO) {
 
 	var _list = function(page,size){

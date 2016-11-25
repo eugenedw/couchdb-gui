@@ -1,4 +1,4 @@
-servicebus.factory('DAO', function($http, $q, $rootScope, $timeout, $global, $location, $anchorScroll) {
+couchdbgui.factory('DAO', function($http, $q, $rootScope, $timeout, $global, $location, $anchorScroll) {
 
 					var _list = function(page, size, _url) {
 

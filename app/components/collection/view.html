@@ -5,14 +5,14 @@
 <code class="margin-top-5">/{{currentapplication.path}}/{{currentflow.path}}</code>
 <br />
 <div ng-bind="currentflow.description" class="padding-top-10 margin-bottom-20"></div>
-					   
+
 <div id="flow-tab-wrapper nav-tabs-horizontal" data-plugin="tabs">
- 
+
  	  <ul class="nav nav-tabs" data-plugin="nav-tabs" role="tablist">
  	  	<li role="presentation" class="active" ng-class="{'active':$global.activeTab('appedit','available-flows')||!$global.activeTab('appedit')}"><a href="javascript:void(0)" ng-click="$global.setActiveTab('appedit','available-flows')" role="tab" data-toggle="tab">Executions</a></li>
  	  	<li role="presentation" ng-class="{'active':$global.activeTab('appedit','trigger-tree')}"><a href="javascript:void(0)" ng-click="$global.setActiveTab('appedit','trigger-tree')" role="tab" data-toggle="tab">Flow Execution Configuration</a></li>
  	  </ul>
- 	  
+
  	  <div class="tab-content">
   	  <!-- available flows tab -->
   	  <div class="tab-pane active" ng-if="$global.activeTab('appedit','available-flows')||!$global.activeTab('appedit')" id="available-flows" role="tabpanel" >
@@ -47,12 +47,12 @@
 				    		<span class="bold">Schedule</span>
 				    		<br />
 				    		<span class="code-alt">
-				    			<span ng-bind="currentflow.schedule || 'Not Scheduled'"></span> 
+				    			<span ng-bind="currentflow.schedule || 'Not Scheduled'"></span>
 				    			<span ng-bind="currentflow.timeUnit" ng-if="currentflow.scheduleType=='FIXED_DELAY'"></span>
 				    		</span>
 				    		<br />
 				    		<div ng-if="currentflow.scheduleType=='CRON'||currentflow.scheduleType=='FIXED_DELAY'" class="margin-top-20">
-					    		<span class="bold">Assigned Node</span> 
+					    		<span class="bold">Assigned Node</span>
 					    		<br />
 					    		<span class="code-alt" ng-if="currentflow.node !== undefined && currentflow.node != null">
 					    			<span ng-bind="currentflow.node.host"></span>:<span ng-bind="currentflow.node.port"></span>
@@ -66,7 +66,7 @@
 					    		<br />
 					    		<span class="code-alt">{{(currentflow.running?'Running':'Not Running')}}</span>
 				    		</div>
-				    		
+
 				    	</div>
 			    	</div>
 			    </div>
@@ -74,16 +74,16 @@
 		  </div>
 		</div>
 		<!-- //available flows tab -->
-		
+
 		<!-- trigger tree tab -->
 		<div class="tab-pane active" ng-if="$global.activeTab('appedit','trigger-tree')" id="trigger-tree" role="tabpanel" >
-			
+
 			<div ng-include="'app/components/flow/inc-triggermap-edit.html'"></div>
-		
+
 		</div>
 		<!-- //trigger tree tab -->
 	</div>
 	<!-- // tabs  -->
-	
+
  </div>
  <!-- //flow tab wrapper -->

@@ -1,4 +1,4 @@
-servicebus.controller('NavigationCtrl',function($scope,$stateParams,$http,$state,$global,$q,ApplicationService,ModuleService){
+couchdbgui.controller('NavigationCtrl',function($scope,$stateParams,$http,$timeout,$state,$global,$q,DatabaseService){
 
   $scope.navigation = [];
   var modulelist = [];
@@ -10,26 +10,21 @@ servicebus.controller('NavigationCtrl',function($scope,$stateParams,$http,$state
 			method: "get",
 			url: "assets/js/navigation.json"
 		})
-        .then(
-        	function(res){
+    .then(function(res){
 				 $scope.navigation = res.data;
-                 setupapps().then(function(d){
-                   applist = d;
-                   setupmodules().then(function(r){
-                     modulelist = r;
-                     traverse($scope.navigation);
-                     $('.tree-toggle').click(
-			                    		 function () {	
-			                    			 $(this).parent().children('ul.tree').toggle(200);
-			                    		 }
-			                    	   );
-                   });
-                 });
-			},
-			function(res){
+         traverse($scope.navigation);
+         $timeout(function(){
+           $('.tree-toggle').click(
+               function () {
+                 $(this).parent().children('ul.tree').toggle(200);
+               }
+            );
+         },2000);
+		},
+		function(res){
 				console.log("No applications returned...");
-			});
-			return req;
+		});
+		return req;
 
   };
 
@@ -47,38 +42,6 @@ servicebus.controller('NavigationCtrl',function($scope,$stateParams,$http,$state
             traverse(o[i],func);
           }
       }
-  }
- 
-  var setupapps = function(){
-    var deferred = $q.defer();
-    ApplicationService.list().then(function(d){
-      var retarr = [];
-      angular.forEach(d,function(o,k){
-    	var arro = {
-    		"title" : o.name,
-    		"link" : "#/application/view/" + o.id
-    	};
-    	retarr.push(arro);
-      });
-      deferred.resolve(retarr);
-    });
-    return deferred.promise;
-  }
-
-  var setupmodules = function(){
-    var deferred = $q.defer();
-    ModuleService.list().then(function(d){
-	    var retarr = [];
-	    angular.forEach(d,function(o,k){
-	      	var arro = {
-	      		"title" : o.name,
-	      		"link" : "#/module/view/" + o.id
-	      	};
-	      	retarr.push(arro);
-	    });
-	    deferred.resolve(retarr);
-    });
-    return deferred.promise;
   }
 
 

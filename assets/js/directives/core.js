@@ -1,4 +1,4 @@
-servicebus.directive('capitalize', function() {
+couchdbgui.directive('capitalize', function() {
 	return {
 		require : 'ngModel',
 		link : function(scope, element, attrs, modelCtrl) {

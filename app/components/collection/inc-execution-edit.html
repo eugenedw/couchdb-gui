@@ -1,34 +1,34 @@
 
 <div class="dotted-border margin-top-10 padding-20">
-	
+
   <div class="module-selector">
   	<b>Module Executions</b>
   	<div class="bg-blue-300 padding-10 margin-top-5" ng-if="appeditor.modref!='-1'">Please wait...</div>
-  	<select id="module-selector" class="form-control margin-top-5" 
+  	<select id="module-selector" class="form-control margin-top-5"
   				ng-if="appeditor.modref=='-1'"
   				ng-model="appeditor.modref"
   				ng-change="addExecutionToFlow(currentflow,appeditor.modref)"
   				ng-options="mod.id as mod.name for mod in moduleselects">
   	</select>
   </div>
-	  
-  <div id="flowExecution_{{$index}}" 
-  		ng-repeat="exec in currentflow.executionSet track by $index" 
+
+  <div id="flowExecution_{{$index}}"
+  		ng-repeat="exec in currentflow.executionSet track by $index"
   		class="bg-blue-100 margin-top-20 padding-20 execution-entry">
-			
+
 		<a href="javascript:void(0)" type="button" class="push-right close-x" ng-click="deleteExecutionFromFlow(currentflow,$index)"><span aria-hidden="true">&times;</span></a>
-        
+
 		<b>{{exec.moduleReference.name}}</b>
 		<br />
 		<small class="blue-grey-400" ng-bind="exec.id || 'No ID Assigned to Execution'"></small>
 		<br />
 		{{exec.moduleReference.description}}
-		
+
 		<div class="argument-wrapper margin-top-10" ng-if="$global.toggledef('expand_'+$index)">
 			<div ng-repeat="arg in $global.order(exec.moduleReference.argumentSet,'ordinal') track by $index" class="bg-blue-200 padding-10 margin-bottom-10">
 				<div class="row">
 					<div class="col-xs-5">
-						<span style="line-height: 30px"><b>{{arg.display}} 
+						<span style="line-height: 30px"><b>{{arg.display}}
 							<sup ng-if="!arg.optional" class="red-800">*</sup>
 							<sup ng-if="arg.sensitive" class="orange-800 pointer" title="This argument value is stored encrypted">!</sup>
 							</b></span>
@@ -43,7 +43,7 @@
 						<input type="text" class="form-control" numeric ng-model="exec.argumentMap[arg.name]" placeholder='Enter the value for "{{arg.display}}"' />
 					</div>
 					<div class="col-xs-7" ng-if="arg.fieldType=='SELECT'">
-					  	<select id="exec_selector_{{$index}}" class="form-control margin-top-5" 
+					  	<select id="exec_selector_{{$index}}" class="form-control margin-top-5"
 					  				ng-model="exec.argumentMap[arg.name]">
 					  		<option value="">Select {{arg.display}}</option>
 					  		<option value="{{k}}" ng-repeat="(k,v) in arg.choiceMap">{{v}}</option>
@@ -64,20 +64,20 @@
 				</div>
 			</div>
 		</div>
-		<br />	
+		<br />
 		<div class="expand-buttons push-left margin-top-10">
 			<a href="javascript:void(0)" class="push-right btn btn-primary btn-sm" ng-if="!$global.toggledef('expand_'+$index)" ng-click="$global.toggle('expand_'+$index,'show')"><span aria-hidden="true">Show Arguments</span></a>
 	        <a href="javascript:void(0)" class="push-right btn btn-info btn-sm" ng-if="$global.toggledef('expand_'+$index)" ng-click="$global.toggle('expand_'+$index,'hide')"><span aria-hidden="true">Hide Arguments</span></a>
         </div>
 		<div class="push-right checkbox-wrapper margin-top-20">
       		Intial Execution &nbsp;
-      		<checkbox 
-      				ng-model="currentflow.initialExec[exec.id]" 
+      		<checkbox
+      				ng-model="currentflow.initialExec[exec.id]"
       				ng-change="setInitialExecution(currentflow,exec.id)"></checkbox>
-      				
+
       	</div>
 		<div class="clear"></div>
-				
+
 	</div>
-			
+
 </div>

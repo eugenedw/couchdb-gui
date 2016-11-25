@@ -1,6 +1,6 @@
 <!-- view user keys -->
-<div class="modal fade" id="globalModal" 
-		tabindex="-1" role="dialog" 
+<div class="modal fade" id="globalModal"
+		tabindex="-1" role="dialog"
 		aria-labelledby="Global Modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -13,17 +13,16 @@
       <div class="modal-body padding-20 bg-blue-100 margin-top-20 margin-bottom-30 margin-left-20 margin-right-20">
       	{{$global.modal.modalBody}}
       </div>
-	
+
 	  <div ng-if="$global.modal.proceedButton.text === undefined" class="margin-bottom-10"></div>
-	  <a class="btn btn-success push-right margin-right-20 margin-bottom-20" 
-	  			ng-class="$global.modal.proceedButton.btnstyle" 
+	  <a class="btn btn-success push-right margin-right-20 margin-bottom-20"
+	  			ng-class="$global.modal.proceedButton.btnstyle"
 	  			href="javascript:void(0)" ng-click="$global.modalconfirm()" ng-if="$global.modal.proceedButton.text !== undefined">
 	  	{{$global.modal.proceedButton.text}}
 	  </a>
-  	  <div class='clear'></div>
-  	  
+  	<div class='clear'></div>
 	</div>
-  	  
+
   </div>
 </div>
 <!-- //view user keys -->

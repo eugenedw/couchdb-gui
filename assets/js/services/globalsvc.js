@@ -1,4 +1,4 @@
-servicebus
+couchdbgui
 .factory('$global',function($http,$q,$rootScope,$timeout,$location,$anchorScroll){
 
 	var _self = this;
@@ -6,7 +6,11 @@ servicebus
 	_self.breadcrumb = undefined;
 	_self.toggledef = {};
 	_self.activetabs = {};
-	_self.modal = {};
+	_self.modal = {
+		modalTitle : "",
+		modalBody : "",
+		proceedButton : {}
+	};
 	_self.alertbanner = {message: "not set", showing: false };
 
 	var _setbreadcrumb = function(patharr){
@@ -20,18 +24,18 @@ servicebus
 	var getSystemSettings = function getSystemSettings(){
 		return {"setting":"a setting"};
 	}
-	
+
 	var initializeView = function(methods){
 		for(v in methods){
 			methods[v].call();
 		}
 	}
-	
+
 	var scrollto = function(divname){
 		$location.hash(divname);
 		$anchorScroll();
 	}
-	
+
 	var triggerConfirmationModal = function(title,body,buttontext,confirmmethod,btnstyle){
 		_self.modal["modalTitle"] = title;
 		_self.modal["modalBody"] = body;
@@ -46,7 +50,7 @@ servicebus
 		_self.modal["proceedButton"].method();
 		$("#globalModal").modal("hide");
 	}
-	
+
 	var toggle = function(type,force){
 		if( force ){
 			if( force == 'hide' ){
@@ -63,13 +67,13 @@ servicebus
 			_self.toggledef[type] = true;
 		}
 	}
-	
+
 	var toggledef = function(def){
 		if( def instanceof Array ){
 			var ret = false;
 			angular.forEach(def,function(te,k){
 				if( _self.toggledef[te] === undefined ){
-					_self.toggledef[te] = false; 
+					_self.toggledef[te] = false;
 				}
 				if( _self.toggledef[te] ){
 					ret = true;
@@ -79,17 +83,17 @@ servicebus
 		}
 		else{
 			if( _self.toggledef[def] === undefined ){
-				_self.toggledef[def] = false; 
+				_self.toggledef[def] = false;
 			}
 			return _self.toggledef[def];
 		}
 	}
-	
+
 	var activeTab = function(page,tabname){
 		if( _self.activetabs[page] === undefined ){
 			_self.activetabs[page] = {};
 		}
-		
+
 		if( !tabname ){
 			var tabactive = false;
 			for( var tab in _self.activetabs[page] ){
@@ -106,7 +110,7 @@ servicebus
 			return _self.activetabs[page][tabname];
 		}
 	}
-	
+
 	var setActiveTab = function(page,tabname){
 		if( _self.activetabs[page] === undefined ){
 			_self.activetabs[page] = {};
@@ -121,7 +125,7 @@ servicebus
 			}
 		}
 	}
-	
+
 	var findById = function(set,id){
 		var obj = {};
 		angular.forEach(set,function(rol,k){
@@ -131,7 +135,7 @@ servicebus
 		});
 		return obj;
 	}
-	
+
 	var scrollto = function(el){
 		$timeout(function(){
 			$('html, body').animate({
@@ -139,14 +143,14 @@ servicebus
 		    }, 2000);
 		},1000);
 	}
-	
+
 	var guid = function(){
 		function s4(){
 			return Math.floor((1+Math.random())*0x10000).toString(16).substring(1);
 		}
 		return s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
 	}
-	
+
 	var showbanner = function(msg){
 		_self.alertbanner.message = msg;
 		_self.alertbanner.showing = true;
@@ -154,7 +158,7 @@ servicebus
 			_self.alertbanner.showing = false;
 		},5000);
 	}
-	
+
 	var order = function(collection,orderby){
 		collection.sort(function(a1,a2){
 			var field1 = a1[orderby]||"";
@@ -172,28 +176,41 @@ servicebus
 		return collection;
 	}
 
+	var util = {
+		isArray : function(obj){
+			return (!!obj)&&(obj.constructor===Array)
+		},
+		isObject : function(obj){
+			return (!!obj)&&(obj.constructor===Object)
+		},
+		isDate : function(obj){
+			return (!!obj)&&(obj.constructor===Date)
+		}
+	}
+
 	return {
 	    defaults : {
 		  breadcrumb : { path: "#/home", name: "Home" }
 	    },
-		setbreadcrumb : _setbreadcrumb,
-		getbreadcrumb : _getbreadcrumb,
-		settings : getSystemSettings,
-		initview : initializeView,
-		toggle : toggle,
-		toggledef : toggledef,
-		findById : findById,
-		scrollto : scrollto,
-		activeTab : activeTab,
-		setActiveTab : setActiveTab,
-		confirm : triggerConfirmationModal,
-		alert : triggerConfirmationModal,
-		guid : guid,
-		modal : _self.modal,
-		modalconfirm : confirmModal,
-		showbanner : showbanner,
-		alertbanner : _self.alertbanner,
-		order : order
+			setbreadcrumb : _setbreadcrumb,
+			getbreadcrumb : _getbreadcrumb,
+			settings : getSystemSettings,
+			initview : initializeView,
+			toggle : toggle,
+			toggledef : toggledef,
+			findById : findById,
+			scrollto : scrollto,
+			activeTab : activeTab,
+			setActiveTab : setActiveTab,
+			confirm : triggerConfirmationModal,
+			alert : triggerConfirmationModal,
+			guid : guid,
+			modal : _self.modal,
+			modalconfirm : confirmModal,
+			showbanner : showbanner,
+			alertbanner : _self.alertbanner,
+			order : order,
+			util : util
 	};
 
 });

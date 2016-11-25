@@ -1,0 +1,49 @@
+  <div class="margin-top-50">
+
+   <div class="affix docfilter padding-10">
+     <div class="row">
+       <div class="col-xs-3">
+         <input class="form-control" placeholder="Filter (field name)" ng-model="filter.fieldname" />
+       </div>
+       <div class="col-xs-3">
+         <input class="form-control" placeholder="Filter (field value)" ng-model="filter.fieldvalue" />
+       </div>
+       <div class="col-xs-4">
+         <select ng-model="filter.view" class="form-control" ng-change="docsbyview()">
+           <option value="">Filter By View</option>
+           <optgroup ng-repeat="dd in viewlist" label="{{dd.doc._id}}" ng-if="dd.doc.views !== undefined">
+             <option ng-repeat="(vk,vv) in dd.doc.views" ng-value="dd.doc._id+'/'+vk">
+              {{vk}}
+             </option>
+           </optgroup>
+         </select>
+       </div>
+       <div class="col-xs-2">
+         <select ng-model="docquery.limit" class="form-control">
+           <option ng-value="100" selected>100</option>
+           <option ng-repeat="rsize in [500,750]" ng-value="rsize">
+              {{rsize}}
+           </option>
+         </select>
+       </div>
+     </div>
+   </div>
+
+   <div class="row component-row margin-left-0 margin-right-0 margin-bottom-5 margin-top-5" ng-repeat="doc in documentlist track by $index" ng-if="filtercheck(doc.doc)">
+
+  	<div class="col-xs-12 component-row-detail">
+
+  		<div class="row" ng-repeat="(k,v) in doc.doc">
+          <div class="col-xs-2 blue-800">
+            {{k}}
+          </div>
+          <div class="col-xs-10">
+            <code ng-if="k.indexOf('_id') < 0">{{v}}</code>
+            <a href="javascript:void(0)" ng-if="k.indexOf('_id') > -1" ng-click="showdocument(v)"><code class='purple-800'>{{v}}</code></a>
+          </div>
+  		</div>
+
+  	</div>
+   </div>
+ </div>
+ <div infinite-scroll="getmoredocs()" infinite-scroll-distance="5"></div>

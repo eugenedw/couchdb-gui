@@ -1,4 +1,4 @@
-servicebus
+couchdbgui
 .factory('ConfigurationService', function($http,$rootScope,$global) {
 
 	  return {

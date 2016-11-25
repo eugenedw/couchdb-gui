@@ -1,0 +1,68 @@
+<!-- Edit Flow Modal -->
+<script type="text/ng-template" id="rowrender.html">
+	<div class="row margin-bottom-10" ng-repeat="(fld,val) in doc" ng-if="fld != 'id' && fld != '_id' && fld != '_rev'">
+		<div class="col-xs-4">
+			<span class="bold">{{fld}}</span>
+		</div>
+		<div class="col-xs-8">
+			<div ng-if="$global.util.isObject(doc[fld])">
+				<div ng-repeat="doc in [doc[fld]]" ng-include="'rowrender.html'"></div>
+			</div>
+			<input type="text" class="form-control"
+						ng-model="$global.currentdocument[fld]"
+						placeholder="{{fld}}" ng-value="doc[fld]" ng-if="!$global.util.isObject(doc[fld]) && doc[fld].length < 100" />
+
+			<input type="text" class="form-control"
+						ng-model="$global.currentdocument[fld]"
+						placeholder="{{fld}}" ng-value="doc[fld]" ng-if="!$global.util.isObject(doc[fld]) && $global.util.isDate(doc[fld])" />
+
+			<textarea class="form-control"
+						ng-model="$global.currentdocument[fld]" rows="5"
+						placeholder="{{fld}}" ng-value="doc[fld]" ng-if="!$global.util.isObject(doc[fld]) && doc[fld].length >= 100" />
+		</div>
+	</div>
+</script>
+
+<div class="modal fade" id="viewDocumentModal"
+		tabindex="-1" role="dialog"
+		aria-labelledby="View Document" ng-controller="DocumentCtrl">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Viewing Document</h4>
+      </div>
+      <div class="modal-body">
+		  <!--  flow editor -->
+		  <div class='bg-blue-200 margin-top-0 margin-bottom-10 padding-20'>
+
+		  	<div id="document-info-wrapper">
+			  <p>
+
+			  <b>Document ID</b>
+			  <input type="text" class="form-control"
+			  			ng-model="$global.currentdocument.id"
+			  			placeholder="Document Id" readonly maxlength="100" />
+			  </p>
+			  <b>Fields</b>
+			  <div class="clear"></div>
+
+				<div class="bg-blue-300 padding-10 margin-top-5">
+					<div ng-repeat="doc in [$global.currentdocument]" ng-include="'rowrender.html'"></div>
+				</div>
+
+
+			</div>
+
+		  </div>
+
+		  <button class="btn btn-sm btn-success push-right margin-top-10" ng-click="$rootScope.$broadcast('savedocument',$global.currentdocument)" data-dismiss="modal" aria-label="Save and Close">Save</button>
+
+		  <div class="clear"></div>
+
+		  <!-- //flow editor -->
+
+		</div>
+	</div>
+</div>
+</div>

@@ -1,13 +1,23 @@
 <div class="page-wrap">
-  <h3>Welcome to the Service Bus Management Console</h3>
+  <h3>Welcome to the CouchDB Administration GUI</h3>
   Please select an action from the menu.
   <br />
   <br />
   <h4>Actions that can be performed</h4>
   <ul>
-    <li>Manage Applications</li>
-    <li>Create flows for Applications</li>
-    <li>Review Modules</li>
+    <li>View & Edit Databases</li>
+    <li>View & Edit Collections</li>
+    <li>View & Edit Users</li>
   </ul>
   </p>
+  <div class="alert alert-info margin-top-20">
+    Database Connection Status:
+      <span class="label" ng-class="{'label-info':$global.connection.status=='connecting','label-success':$global.connection.status=='connected','label-danger':$global.connection.status===undefined||$global.connection.status=='disconnected'}">
+        {{$global.connection.status?$global.connection.status:'Not Connected'}}
+      </span>
+  </div>
+  <div class="margin-top-20">
+      <button type="button" id="displayConnectionSettings" class="btn btn-info btn-sm" ng-click="updateconnection()" data-toggle="modal" data-target="#configureConnectionModal">Configure Connection</button>
+      <button type="button" ng-if="$global.connection.status=='connected'" class="btn btn-warning btn-sm" ng-click="viewconnection()">Connection Details</button>
+  </div>
 </div>

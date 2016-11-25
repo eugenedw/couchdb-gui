@@ -10,15 +10,15 @@
     "header" : true,
     "children" : [
       {
-        "title" : "Applications",
+        "title" : "Views",
         "header" : false,
-        "link" : "#/application/list",
+        "link" : "#/views/list",
         "noarrow" : true
       },
       {
-        "title" : "Modules",
+        "title" : "Documents",
         "header" : false,
-        "link" : "#/module/list",
+        "link" : "#/documents/list",
         "noarrow" : false
       }]
   },
@@ -27,39 +27,27 @@
     "header" : true,
 	"glyph" : "glyphicon glyphicon-certificate m10",
     "children" : [
-    	{ 
-    		"title" : "Users", 
-    		"noarrow" : true, 
+    	{
+    		"title" : "Users",
+    		"noarrow" : true,
     		"header" : false,
-    		"link" : "#/access/user/list" 
-    	},
-    	{ 
-    		"title" : "Policies", 
-    		"noarrow" : true, 
-    		"header" : false, 
-    		"link" : "#/access/policy/list" 
-    	},
-    	{ 	
-    		"title" : "Roles", 
-    		"noarrow" : true, 
-    		"header" : false, 
-    		"link" : "#/access/role/list" 
+    		"link" : "#/access/user/list"
     	}
     ],
-    "noarrow" : false   
+    "noarrow" : false
   },
   {
     "title" : "Monitoring",
     "header" : true,
 	"glyph" : "glyphicon glyphicon-eye-open m10",
     "children" : [
-    	{ 
-    		"title" : "Nodes", 
-    		"noarrow" : true, 
+    	{
+    		"title" : "Nodes",
+    		"noarrow" : true,
     		"header" : false,
-    		"link" : "#/monitor/node/list" 
+    		"link" : "#/monitor/node/list"
     	}
     ],
-    "noarrow" : false   
+    "noarrow" : false
   }
 ]

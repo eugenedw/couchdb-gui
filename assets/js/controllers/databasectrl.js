@@ -1,4 +1,4 @@
-servicebus.controller('DatabaseCtrl',
+couchdbgui.controller('DatabaseCtrl',
 		function($scope,$stateParams,$state,$timeout,$location,$global,$q,$anchorScroll,DatabaseService,DAO){
 
 	var breadcrumb = [
